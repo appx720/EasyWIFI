@@ -18,3 +18,16 @@ EasyWIFI는 사용자가 자신의 Wi-Fi를 쉽게 변경할 수 있도록 도�
 2. **프로그램 실행**: 
    - `EasyWIFI.exe` 프로그램을 실행하면, 프로그램이 **시스템 트레이에 아이콘으로 표시**됩니다.
    - 시스템 트레이에서 아이콘을 클릭하여 목록에서 원하는 Wi-Fi를 선택하고 연결 버튼을 클릭합니다.
+
+## 예시
+
+### networks.txt
+```
+gc_gc_hs
+KT_GiGA_2G_Wave2_B05F
+KT_GiGA_5G_Wave2_B05F
+```
+
+
+### 실행화면
+![EasyWIFI 실행 화면](https://i.imgur.com/rAlsoGS.png)
