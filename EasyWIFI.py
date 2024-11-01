@@ -17,12 +17,17 @@
 
 
 
-import sys
+import sys, os
 import ezwifi
+
+from tendo import singleton
 from unittest.mock import patch
+
 from PySide6.QtWidgets import QApplication, QWidget, QVBoxLayout, QListWidget, QPushButton, QMessageBox, QSystemTrayIcon, QMenu
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QFont, QIcon, QAction
+
+
 
 
 class EasyWIFI(QWidget):
@@ -78,11 +83,12 @@ class EasyWIFI(QWidget):
     
     def load_networks(self):
         try:
-            with open("networks.txt", "r") as file:
+            with open(NETWORK_PATH, "r") as file:
                 networks = file.readlines()
                 self.network_list.addItems([network.strip() for network in networks])
+
         except FileNotFoundError:
-            QMessageBox.warning(self, "파일 오류", "networks.txt 파일을 찾을 수 없습니다.")
+            QMessageBox.warning(self, "파일 오류", f"networks.txt 파일을 찾을 수 없습니다.")
 
     def connect_to_network(self):
         selected_network = self.network_list.currentItem()
@@ -129,8 +135,25 @@ class EasyWIFI(QWidget):
         QApplication.quit()
 
 
+def preprocess():
+    global NETWORK_PATH
+
+    if not sys.executable.endswith("python.exe"): # only on exeutive file
+        NETWORK_PATH = os.path.dirname(sys.executable) + r"\networks.txt" # because of pyinstaller onefile option
+    else:
+        NETWORK_PATH = "networks.txt"
+
+    try:
+        m = singleton.SingleInstance() # 중복 실행 방지
+    except Exception as e:
+        exit()
+
+
 
 if __name__ == "__main__":
+    NETWORK_PATH = None
+    preprocess()
+
     app = QApplication(sys.argv)
     window = EasyWIFI()
     window.hide()  # 초기화 시 창 숨김
